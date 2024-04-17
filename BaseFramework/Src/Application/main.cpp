@@ -221,9 +221,6 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	KdAudioManager::Instance().Init();
 	
-	//粛清対象
-	m_iranai = 53;
-
 	return true;
 }
 
