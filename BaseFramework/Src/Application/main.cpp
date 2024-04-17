@@ -220,6 +220,9 @@ bool Application::Init(int w, int h)
 	// オーディオ初期化
 	//===================================================================
 	KdAudioManager::Instance().Init();
+	
+	//粛清対象
+	m_iranai = 53;
 
 	return true;
 }
