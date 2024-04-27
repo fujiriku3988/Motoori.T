@@ -64,6 +64,58 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
+	//カメラ行列の作成
+	{
+		m_y += m_moveY;
+		m_cameraZ += m_cameraZvec;
+		m_cameraZ = 0;
+		m_moveY = 1;
+		
+
+		//大きさ
+		Math::Matrix _mScale = Math::Matrix::CreateScale(1);
+
+		//どれだけ傾けているか
+		Math::Matrix _mRoatationX = Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(45));
+		//Math::Matrix _mRoatationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_y));
+		Math::Matrix _mRoatationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(0));
+
+		//基準点（ターゲット）からどれだけ離れているか
+		Math::Matrix _mTrans = Math::Matrix::CreateTranslation(0, 6, -5+m_cameraZ);
+
+		//カメラのワールド行列を作成、適応
+		//Math::Matrix _mWorld = _mScale * _mRoatationX * _mRoatationY* _mTrans;
+		//Math::Matrix _mWorld = _mScale * _mRoatation * _mTrans;
+		Math::Matrix _mWorld = _mScale* _mRoatationX *_mTrans * _mRoatationY;
+		m_spCamera->SetCameraMatrix(_mWorld);
+	}
+	//ハム太郎の更新
+	{
+		Math::Vector3 pos = m_HamuWorld.Translation();
+		Math::Vector3 moveVec = Math::Vector3::Zero;
+
+		if (GetAsyncKeyState('W'))
+		{
+			moveVec.z = 1.0f;
+			m_cameraZvec = 1.0f;
+		}
+		if (GetAsyncKeyState('A'))moveVec.x = -1.0f;
+		if (GetAsyncKeyState('S'))moveVec.z = -1.0f;
+		if (GetAsyncKeyState('D'))moveVec.x = 1.0f;
+
+		moveVec *= m_movePow;
+		pos += moveVec;
+
+		//キャラクターのワールド行列を作成
+		m_HamuWorld = Math::Matrix::CreateTranslation(pos);
+		//m_spPoly->SetMaterial()
+	}
+
+	//m_z += m_moveZ;
+	//m_x += m_moveX;
+	/*if (m_z > 5) { m_moveZ *= -1; }
+	if (m_z < 0) { m_moveZ *= -1; }*/
+	
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -100,6 +152,7 @@ void Application::KdPostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
+	m_spCamera->SetToShader();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -119,6 +172,10 @@ void Application::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
+		//Math::Matrix _mat = Math::Matrix::CreateTranslation(0, 0, 5);//x,y,z
+		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_spPoly, m_HamuWorld);
+
+		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -178,9 +235,9 @@ bool Application::Init(int w, int h)
 	// フルスクリーン確認
 	//===================================================================
 	bool bFullScreen = false;
-	if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
+	/*if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
 		bFullScreen = true;
-	}
+	}*/
 
 	//===================================================================
 	// Direct3D初期化
@@ -220,7 +277,23 @@ bool Application::Init(int w, int h)
 	// オーディオ初期化
 	//===================================================================
 	KdAudioManager::Instance().Init();
-	
+
+	//カメラ初期化(スマートポインター)
+	m_spCamera = std::make_shared<KdCamera>();
+	//ポリゴン初期化
+	m_spPoly = std::make_shared<KdSquarePolygon>();
+	m_spPoly->SetMaterial("Asset/Data/LessonData/Character/Hamu.png");
+	m_spPoly->SetPivot(KdSquarePolygon::PivotType::Center_Bottom);
+
+	//地形初期化
+	m_spModel = std::make_shared<KdModelData>();
+	m_spModel->Load("Asset/Data/LessonData/Terrain/Terrain.gltf");
+
+	//m_z = 0;
+	//m_moveZ = 0.1f;
+	//m_x = 0;
+	//m_moveX = 0.1f;
+
 	return true;
 }
 

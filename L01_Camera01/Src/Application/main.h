@@ -51,6 +51,26 @@ private:
 	// ゲーム終了フラグ trueで終了する
 	bool		m_endFlag = false;
 
+	//カメラ
+	std::shared_ptr<KdCamera>m_spCamera = nullptr;
+	float m_y;
+	float m_moveY;
+	//ポリゴンデータ
+	std::shared_ptr<KdSquarePolygon> m_spPoly = nullptr;
+	Math::Matrix m_HamuWorld = Math::Matrix::Identity;
+
+	Math::Matrix m_pos;
+	Math::Matrix m_move;
+
+	float m_cameraZ;
+	float m_cameraZvec;
+
+	float m_movePow = 0.05f;
+
+	//地形データ
+	std::shared_ptr<KdModelData>m_spModel = nullptr;
+	
+
 //=====================================================
 // シングルトンパターン
 //=====================================================
