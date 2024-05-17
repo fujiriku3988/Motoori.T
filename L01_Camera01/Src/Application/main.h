@@ -55,9 +55,10 @@ private:
 	std::shared_ptr<KdCamera>m_spCamera = nullptr;
 	float m_y;
 	float m_moveY;
+
 	//ポリゴンデータ
-	std::shared_ptr<KdSquarePolygon> m_spPoly = nullptr;
-	Math::Matrix m_HamuWorld = Math::Matrix::Identity;
+	/*std::shared_ptr<KdSquarePolygon> m_spPoly = nullptr;
+	Math::Matrix m_HamuWorld = Math::Matrix::Identity;*/
 
 	Math::Matrix m_pos;
 	Math::Matrix m_move;
@@ -67,10 +68,9 @@ private:
 
 	float m_movePow = 0.05f;
 
-	//地形データ
-	std::shared_ptr<KdModelData>m_spModel = nullptr;
 	
-
+	//ゲームオブジェクトリスト
+	std::vector<std::shared_ptr<KdGameObject>>m_gameObjList;
 //=====================================================
 // シングルトンパターン
 //=====================================================

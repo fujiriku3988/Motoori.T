@@ -4,6 +4,15 @@
 class KdGameObject : public std::enable_shared_from_this<KdGameObject>
 {
 public:
+	//勝手に追加した
+	enum class ObjectType
+	{
+		Hamu,
+		Terrain
+	};
+	virtual Math::Matrix GetmWorld() { return m_mWorld; }
+	virtual ObjectType GetObj() { return m_objType; }
+	//-----------------------------------------------------------------------//
 
 	// どのような描画を行うのかを設定するTypeID：Bitフラグで複数指定可能
 	enum
@@ -82,4 +91,7 @@ protected:
 
 	// 当たり判定クラス
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
+
+	//objクラス
+	ObjectType m_objType;
 };
