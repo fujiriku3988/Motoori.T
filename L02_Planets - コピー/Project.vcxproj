@@ -146,10 +146,10 @@
     <ClInclude Include="..\Library\tinygltf\stb_image.h" />
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
+    <ClInclude Include="Src\Application\GameObject\Planets\Earth\Earth.h" />
+    <ClInclude Include="Src\Application\GameObject\Planets\Moon\Moon.h" />
+    <ClInclude Include="Src\Application\GameObject\Planets\Sun\Sun.h" />
     <ClInclude Include="Src\Application\main.h" />
-    <ClInclude Include="Src\Application\Planets\Earth\Earth.h" />
-    <ClInclude Include="Src\Application\Planets\Moon\Moon.h" />
-    <ClInclude Include="Src\Application\Planets\Sun\Sun.h" />
     <ClInclude Include="Src\Framework\Direct3D\KdMaterial.h" />
     <ClInclude Include="Src\Framework\Direct3D\Polygon\KdPolygon.h" />
     <ClInclude Include="Src\Framework\Direct3D\Polygon\KdSquarePolygon.h" />
@@ -187,10 +187,10 @@
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Application\GameObject\Planets\Earth\Earth.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Planets\Moon\Moon.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Planets\Sun\Sun.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
-    <ClCompile Include="Src\Application\Planets\Earth\Earth.cpp" />
-    <ClCompile Include="Src\Application\Planets\Moon\Moon.cpp" />
-    <ClCompile Include="Src\Application\Planets\Sun\Sun.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
       </SubType>

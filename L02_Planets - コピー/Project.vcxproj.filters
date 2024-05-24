@@ -55,16 +55,19 @@
     <Filter Include="Src\Framework\Effekseer">
       <UniqueIdentifier>{c81b93e4-2f33-496a-985e-98658f1cec51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Planets">
+    <Filter Include="Src\Application\GameObject">
+      <UniqueIdentifier>{2c5bfa2e-ea56-410f-9430-0aea788a1a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Planets">
       <UniqueIdentifier>{e3d17351-fea0-4e28-96d6-18d25793b573}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Planets\Sun">
+    <Filter Include="Src\Application\GameObject\Planets\Sun">
       <UniqueIdentifier>{30278b86-5c6d-497a-bbf5-280e41a1244a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Planets\Earth">
+    <Filter Include="Src\Application\GameObject\Planets\Earth">
       <UniqueIdentifier>{c8df1ba8-d521-4ebe-8563-bdec7a07ed0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Planets\Monn">
+    <Filter Include="Src\Application\GameObject\Planets\Monn">
       <UniqueIdentifier>{8924bc4c-c0f1-48bc-a61d-064551982865}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -192,14 +195,14 @@
     <ClInclude Include="Src\Framework\Effekseer\KdEffekseerManager.h">
       <Filter>Src\Framework\Effekseer</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Planets\Earth\Earth.h">
-      <Filter>Src\Application\Planets\Earth</Filter>
+    <ClInclude Include="Src\Application\GameObject\Planets\Earth\Earth.h">
+      <Filter>Src\Application\GameObject\Planets\Earth</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Planets\Moon\Moon.h">
-      <Filter>Src\Application\Planets\Monn</Filter>
+    <ClInclude Include="Src\Application\GameObject\Planets\Moon\Moon.h">
+      <Filter>Src\Application\GameObject\Planets\Monn</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Planets\Sun\Sun.h">
-      <Filter>Src\Application\Planets\Sun</Filter>
+    <ClInclude Include="Src\Application\GameObject\Planets\Sun\Sun.h">
+      <Filter>Src\Application\GameObject\Planets\Sun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -305,14 +308,14 @@
     <ClCompile Include="Src\Framework\Effekseer\KdEffekseerManager.cpp">
       <Filter>Src\Framework\Effekseer</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Planets\Earth\Earth.cpp">
-      <Filter>Src\Application\Planets\Earth</Filter>
+    <ClCompile Include="Src\Application\GameObject\Planets\Earth\Earth.cpp">
+      <Filter>Src\Application\GameObject\Planets\Earth</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Planets\Sun\Sun.cpp">
-      <Filter>Src\Application\Planets\Sun</Filter>
+    <ClCompile Include="Src\Application\GameObject\Planets\Moon\Moon.cpp">
+      <Filter>Src\Application\GameObject\Planets\Monn</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Planets\Moon\Moon.cpp">
-      <Filter>Src\Application\Planets\Monn</Filter>
+    <ClCompile Include="Src\Application\GameObject\Planets\Sun\Sun.cpp">
+      <Filter>Src\Application\GameObject\Planets\Sun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
