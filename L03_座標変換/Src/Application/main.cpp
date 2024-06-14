@@ -66,6 +66,8 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
+	
+
 	// カメラ行列の更新
 	{
 		// 大きさ
@@ -80,6 +82,7 @@ void Application::Update()
 		// カメラのワールド行列を作成し、適応させる
 		Math::Matrix _mWorld = _mScale * _mRotation * _mTrans;
 		m_spCamera->SetCameraMatrix(_mWorld);
+
 	}
 
 	// ゲームオブジェクトの更新
@@ -271,6 +274,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	std::shared_ptr<Character> _character = std::make_shared<Character>();
 	_character->Init();
+	_character->SetCamera(m_spCamera);
 	m_GameObjectList.push_back(_character);
 
 	return true;
