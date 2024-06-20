@@ -18,6 +18,11 @@ public:
 		m_wpCamera = camera;
 	}
 
+	void SetTerrain(std::weak_ptr<KdGameObject>terrain)
+	{
+		m_wpTerrain = terrain;
+	}
+
 	void SetClickPos(POINT cPos) { m_clickPos = cPos; }
 
 private:
@@ -31,4 +36,8 @@ private:
 	POINT GetMousePos();
 	float moveSpd;
 	Math::Vector3 result;
+	//2d.3d変換用
+	std::weak_ptr<KdGameObject>m_wpTerrain;
+
+	Math::Vector3 m_TargetPos;
 };

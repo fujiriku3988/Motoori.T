@@ -2,6 +2,8 @@
 
 #include "GameObject/Terrain/Terrain.h"
 #include "GameObject/Character/Character.h"
+#include "GameObject/Camera/TrakingCamera/TrackingCamera.h"
+#include "GameObject/Camera/FPSCamera/FPSCamera.h"
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
 // アプリケーションはこの関数から進行する
@@ -66,25 +68,6 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
-	
-
-	// カメラ行列の更新
-	{
-		// 大きさ
-		Math::Matrix _mScale = Math::Matrix::CreateScale(1);
-
-		// どれだけ傾けているか
-		Math::Matrix _mRotation = Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(45));
-
-		// 基準点(ターゲット)からどれだけ離れているか
-		Math::Matrix _mTrans = Math::Matrix::CreateTranslation(0, 6.0f, -5);
-
-		// カメラのワールド行列を作成し、適応させる
-		Math::Matrix _mWorld = _mScale * _mRotation * _mTrans;
-		m_spCamera->SetCameraMatrix(_mWorld);
-
-	}
-
 	// ゲームオブジェクトの更新
 	for (std::shared_ptr<KdGameObject> gameObj : m_GameObjectList)
 	{
@@ -126,7 +109,10 @@ void Application::KdPostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
-	m_spCamera->SetToShader();
+	for (std::shared_ptr<KdGameObject> gameObj : m_GameObjectList)
+	{
+		gameObj->PreDraw();
+	}
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -214,9 +200,9 @@ bool Application::Init(int w, int h)
 	// フルスクリーン確認
 	//===================================================================
 	bool bFullScreen = false;
-	/*if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
-		bFullScreen = true;
-	}*/
+	//if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
+	//	bFullScreen = true;
+	//}
 
 	//===================================================================
 	// Direct3D初期化
@@ -258,11 +244,6 @@ bool Application::Init(int w, int h)
 	KdAudioManager::Instance().Init();
 
 	//===================================================================
-	// カメラ初期化
-	//===================================================================
-	m_spCamera	= std::make_shared<KdCamera>();
-
-	//===================================================================
 	// ステージ初期化
 	//===================================================================
 	std::shared_ptr<Terrain> _terrain = std::make_shared<Terrain>();
@@ -274,10 +255,21 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	std::shared_ptr<Character> _character = std::make_shared<Character>();
 	_character->Init();
-	_character->SetCamera(m_spCamera);
-	_character->SetTerrain(_terrain);
 	m_GameObjectList.push_back(_character);
 
+	//===================================================================
+	// カメラ初期化
+	//===================================================================
+	/*std::shared_ptr<TrackingCamera> _camera = std::make_shared<TrackingCamera>();
+	_camera->Init();
+	_camera->SetTarget(_character);
+	m_GameObjectList.push_back(_camera);*/
+
+	std::shared_ptr<FPSCamera> _camera = std::make_shared<FPSCamera>();
+	_camera->Init();
+	_camera->SetTarget(_character);
+	_character->SetCamera(_camera);
+	m_GameObjectList.push_back(_camera);
 	return true;
 }
 
