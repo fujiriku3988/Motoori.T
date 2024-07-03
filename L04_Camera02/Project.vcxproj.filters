@@ -71,7 +71,10 @@
       <UniqueIdentifier>{b9252dc9-dad0-4b4d-8aa3-d1ee735c9997}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Application\GameObject\Camera\FPSCamera">
-      <UniqueIdentifier>{529bcfd5-5d7b-4cf6-8c65-9d601ebe9882}</UniqueIdentifier>
+      <UniqueIdentifier>{9cb6c5aa-8620-45c9-8b26-6178862a4a37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Camera\TPS">
+      <UniqueIdentifier>{4fc240fc-8b15-4ae0-a996-ec671c4fa94b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +216,9 @@
     <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h">
       <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h">
+      <Filter>Src\Application\GameObject\Camera\TPS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -331,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp">
       <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp">
+      <Filter>Src\Application\GameObject\Camera\TPS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

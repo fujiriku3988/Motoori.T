@@ -10,4 +10,4 @@ public:
 	void Init()			override;
 	void Update()		override;
 };
-
+#pragma once

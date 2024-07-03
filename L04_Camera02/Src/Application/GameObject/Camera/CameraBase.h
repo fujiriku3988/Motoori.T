@@ -12,34 +12,28 @@ public:
 	{
 		m_spTarget = target;
 	}
+	const Math::Matrix GetRotationYMatrix()const;
 
-	const Math::Matrix GetRotationMatrix() const
+	void RegistHitObject(const std::shared_ptr<KdGameObject>& object)
 	{
-		return Math::Matrix::CreateFromYawPitchRoll(
-		DirectX::XMConvertToRadians(m_DegAng.y),
-		DirectX::XMConvertToRadians(m_DegAng.x),
-		DirectX::XMConvertToRadians(m_DegAng.z)
-		);
+		m_wpHitObjectList.push_back(object);
 	}
 
-	const Math::Matrix GetRotationYMatrix() const
-	{
-		return Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_DegAng.y));
-	}
-
-private:
-	//カメラの回転角度
-	Math::Vector3 m_DegAng = Math::Vector3::Zero;
 protected:
 	void UpdateRotateByMouse();
-
+	const Math::Matrix GetRotaionMatrix()const;
 	std::weak_ptr<KdGameObject>m_spTarget;
+	std::vector<std::weak_ptr<KdGameObject>> m_wpHitObjectList{};
+
 	std::shared_ptr<KdCamera> m_spCamera = nullptr;
 
 	Math::Matrix m_mLocalPos=Math::Matrix::Identity;
 	Math::Matrix m_mRot = Math::Matrix::Identity;
 
 	//カメラ回転用マウス座標
-	POINT m_FixMousePos = {};
+	POINT m_FixMousePos{};
+private:
+	//カメラの回転用角度
+	Math::Vector3 m_DegAng = Math::Vector3::Zero;
 };
 
