@@ -6,6 +6,8 @@
 
 #include "../../GameObject/Camera/FPSCamera/FPSCamera.h"
 #include "../../GameObject/Camera/TPSCamera/TPSCamera.h"
+#include "../../GameObject/Camera/CCTVCamera/CCTVCamera.h"
+
 void GameScene::Init()
 {
 	//===================================================================
@@ -25,8 +27,9 @@ void GameScene::Init()
 	//===================================================================
 	// カメラ初期化
 	//===================================================================
-//	std::shared_ptr<FPSCamera>		_camera = std::make_shared<FPSCamera>();
-	std::shared_ptr<TPSCamera>		_camera = std::make_shared<TPSCamera>();
+//	//std::shared_ptr<FPSCamera>		_camera = std::make_shared<FPSCamera>();
+	//std::shared_ptr<TPSCamera>		_camera = std::make_shared<TPSCamera>();
+	std::shared_ptr<CCTVCamera>		_camera = std::make_shared<CCTVCamera>();
 	_camera->Init();
 	_camera->SetTarget(_character);
 	_camera->RegistHitObject(_terrain);
