@@ -39,6 +39,11 @@ private:
 
 	float										m_Gravity = 0;
 
+	bool m_isGround = false;
+	Math::Vector3 m_pos;
+	Math::Vector3 m_vec;
+	float m_speed;;
+
 	//ステートパターン管理系
 private:
 	class ActionStateBase
@@ -53,7 +58,28 @@ private:
 
 	class ActionIdle :public ActionStateBase
 	{
-		ActionIdle() {}
+	public:
+		~ActionIdle() {}
+
+		void Enter(Character& owner)override;
+		void Update(Character& owner)override;
+		void Exit(Character& owner)override;
+	};
+
+	class ActionJump :public ActionStateBase
+	{
+	public:
+		~ActionJump() {}
+
+		void Enter(Character& owner)override;
+		void Update(Character& owner)override;
+		void Exit(Character& owner)override;
+	};
+
+	class ActionWalk :public ActionStateBase
+	{
+	public:
+		~ActionWalk() {}
 
 		void Enter(Character& owner)override;
 		void Update(Character& owner)override;

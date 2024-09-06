@@ -16,9 +16,15 @@ void Character::Init()
 		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("Stand"));
 		//m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("Walk"));
 	}
+	m_pos = {};
+	m_vec = {};
+	m_speed = 0.05f;
 
 	m_Gravity = 0;
 	SetPos({ 0, 5.0f, 0 });
+
+	//初期状態を「待機状態」へ設定
+	ChangeActionState(std::make_shared<ActionIdle>());
 }
 
 void Character::Update()
@@ -39,8 +45,8 @@ void Character::Update()
 	//// キャラクターの移動速度(真似しちゃダメですよ)
 	//float			_moveSpd = 0.05f;
 	//Math::Vector3	_nowPos = GetPos();
-
 	//Math::Vector3 _moveVec = Math::Vector3::Zero;
+
 	//if (GetAsyncKeyState('D')) { _moveVec.x = 1.0f; }
 	//if (GetAsyncKeyState('A')) { _moveVec.x = -1.0f; }
 	//if (GetAsyncKeyState('W')) { _moveVec.z = 1.0f; }
@@ -52,20 +58,33 @@ void Character::Update()
 	//	m_Gravity = -0.5f;
 	//}
 
-	//const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
-	//if (_spCamera)
-	//{
-	//	_moveVec = _moveVec.TransformNormal(_moveVec, _spCamera->GetRotationYMatrix());
-	//}
-	//_moveVec.Normalize();
-	//_moveVec *= _moveSpd;
-	//_nowPos += _moveVec;
+	/*const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
+	if (_spCamera)
+	{
+		_moveVec = _moveVec.TransformNormal(_moveVec, _spCamera->GetRotationYMatrix());
+	}
+	_moveVec.Normalize();
+	_moveVec *= _moveSpd;
+	_nowPos += _moveVec;*/
 
 	//// キャラクターの回転行列を創る
 	//UpdateRotate(_moveVec);
 
+	//const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
+	//if (_spCamera)
+	//{
+	//	m_vec = m_vec.TransformNormal(m_vec, _spCamera->GetRotationYMatrix());
+	//}
+	//m_vec.Normalize();
+	//m_vec *= _moveSpd;
+	//_nowPos += m_vec;
+
+	//// キャラクターの回転行列を創る
+	//UpdateRotate(m_vec);
+
 	//// キャラクターのワールド行列を創る処理
-	//Math::Matrix _rotation = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_worldRot.y));
+	Math::Matrix _rotation = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_worldRot.y));
+	m_mWorld = _rotation * Math::Matrix::CreateTranslation(m_pos);
 	//m_mWorld = _rotation * Math::Matrix::CreateTranslation(_nowPos);
 
 }
@@ -175,7 +194,12 @@ void Character::UpdateCollision()
 			if (hit)
 			{
 				SetPos(hitPos);
+				m_isGround = true;
 				m_Gravity = 0;
+			}
+			else
+			{
+				m_isGround = false;
 			}
 		}
 	}
@@ -215,6 +239,7 @@ void Character::ChangeActionState(std::shared_ptr<ActionStateBase> nextState)
 	m_nowAction->Enter(*this);
 }
 
+//待機状態//
 void Character::ActionIdle::Enter(Character& owner)
 {
 
@@ -222,10 +247,83 @@ void Character::ActionIdle::Enter(Character& owner)
 
 void Character::ActionIdle::Update(Character& owner)
 {
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		owner.ChangeActionState(std::make_shared<ActionJump>());
+	}
+	//移動検知
+	/*if (GetAsyncKeyState('W') & 0x8000) { owner.ChangeActionState(std::make_shared<ActionWalk>()); }
+	if (GetAsyncKeyState('A') & 0x8000) { owner.ChangeActionState(std::make_shared<ActionWalk>()); }
+	if (GetAsyncKeyState('S') & 0x8000) { owner.ChangeActionState(std::make_shared<ActionWalk>()); }
+	if (GetAsyncKeyState('D') & 0x8000) { owner.ChangeActionState(std::make_shared<ActionWalk>()); }*/
+	owner.m_vec = Math::Vector3::Zero;
+	if (GetAsyncKeyState('D')) { owner.m_vec.x = 1.0f; }
+	if (GetAsyncKeyState('A')) { owner.m_vec.x = -1.0f; }
+	if (GetAsyncKeyState('W')) { owner.m_vec.z = 1.0f; }
+	if (GetAsyncKeyState('S')) { owner.m_vec.z = -1.0f; }
 
+	if (owner.m_vec.LengthSquared() > 0)
+	{
+		//移動状態へ切り替え
+		owner.ChangeActionState(std::make_shared<ActionWalk>());
+	}
 }
 
 void Character::ActionIdle::Exit(Character& owner)
 {
 
 }
+//待機状態//
+
+//ジャンプ状態//
+void Character::ActionJump::Enter(Character& owner)
+{
+	owner.m_Gravity = -0.5f;
+}
+
+void Character::ActionJump::Update(Character& owner)
+{
+	if (owner.m_isGround) { owner.ChangeActionState(std::make_shared<ActionIdle>()); }
+}
+
+void Character::ActionJump::Exit(Character& owner)
+{
+
+}
+//ジャンプ状態//
+
+//移動状態
+void Character::ActionWalk::Enter(Character& owner)
+{
+
+}
+
+void Character::ActionWalk::Update(Character& owner)
+{
+	owner.m_vec = Math::Vector3::Zero;
+	owner.m_pos = owner.GetPos();
+	if (GetAsyncKeyState('D')) { owner.m_vec.x = 1.0f; }
+	if (GetAsyncKeyState('A')) { owner.m_vec.x = -1.0f; }
+	if (GetAsyncKeyState('W')) { owner.m_vec.z = 1.0f; }
+	if (GetAsyncKeyState('S')) { owner.m_vec.z = -1.0f; }
+
+	const std::shared_ptr<const CameraBase> _spCamera = owner.m_wpCamera.lock();
+	if (_spCamera)
+	{
+		owner.m_vec = owner.m_vec.TransformNormal(owner.m_vec, _spCamera->GetRotationYMatrix());
+	}
+	owner.m_vec.Normalize();
+	owner.m_vec *= owner.m_speed;
+	owner.m_pos += owner.m_vec;
+
+	// キャラクターの回転行列を創る
+	owner.UpdateRotate(owner.m_vec);
+
+	
+}
+
+void Character::ActionWalk::Exit(Character& owner)
+{
+
+}
+//移動状態
