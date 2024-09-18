@@ -85,6 +85,16 @@ private:
 		void Update(Character& owner)override;
 		void Exit(Character& owner)override;
 	};
+
+	class ActionStand :public ActionStateBase
+	{
+	public:
+		~ActionStand() {}
+
+		void Enter(Character& owner)override;
+		void Update(Character& owner)override;
+		void Exit(Character& owner)override;
+	};
 	void ChangeActionState(std::shared_ptr<ActionStateBase> nextState);
 	std::shared_ptr<ActionStateBase>m_nowAction = nullptr;
 };
