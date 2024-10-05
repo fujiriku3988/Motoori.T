@@ -4,7 +4,6 @@
 
 VSOutput main(	float4 pos : POSITION,
 				float2 uv : TEXCOORD,
-				float3 normal : NORMAL,
 				float4 color : COLOR)
 {
 	VSOutput Out;
