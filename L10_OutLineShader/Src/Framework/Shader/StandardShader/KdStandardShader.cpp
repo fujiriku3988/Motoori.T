@@ -304,6 +304,7 @@ void KdStandardShader::DrawPolygon(const KdPolygon& rPolygon, const Math::Matrix
 		WriteMaterial(KdMaterial(), colRate, emissive);
 	}
 
+	//アウトライン
 	KdShaderManager::Instance().ChangeRasterizerState(KdRasterizerState::CullNone);
 
 	// サンプラーステートの変更:ポリゴンの描画なので、テクスチャの末端が繰り返されると不自然な描画になるため変更が必要

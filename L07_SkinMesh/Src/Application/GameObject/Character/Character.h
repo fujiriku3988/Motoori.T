@@ -27,4 +27,5 @@ private:
 	std::weak_ptr<CameraBase>			m_wpCamera;
 
 	Math::Vector3						m_worldRot;
+	bool flg = false;
 };

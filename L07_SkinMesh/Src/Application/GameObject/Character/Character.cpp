@@ -16,11 +16,12 @@ void Character::Init()
 		m_spModel = std::make_shared<KdModelWork>();
 		//m_spModel->SetModelData("Asset/Models/Robot/Robot.gltf");
 		//m_spModel->SetModelData("Asset/Models/SkinMeshMan/SkinMeshMan.gltf");
-		m_spModel->SetModelData("Asset/Models/box/Box.gltf");
+		//m_spModel->SetModelData("Asset/Models/box/Box.gltf");
+		m_spModel->SetModelData("Asset/Models/PressurePlate.gltf");
 
 		//初期のアニメーションセットする
 		m_spAnimator = std::make_shared<KdAnimator>();
-		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("open"));
+		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("upStand"));
 	}
 }
 
@@ -28,13 +29,26 @@ void Character::Update()
 {
 	// キャラクターの移動速度(真似しちゃダメですよ)
 	float			_moveSpd = 0.05f;
-	Math::Vector3	_nowPos	= GetPos();
+	Math::Vector3	_nowPos = GetPos();
 
 	Math::Vector3 _moveVec = Math::Vector3::Zero;
-	if (GetAsyncKeyState('D')) { _moveVec.x =  1.0f; }
+	if (GetAsyncKeyState('D')) { _moveVec.x = 1.0f; }
 	if (GetAsyncKeyState('A')) { _moveVec.x = -1.0f; }
-	if (GetAsyncKeyState('W')) { _moveVec.z =  1.0f; }
+	if (GetAsyncKeyState('W')) { _moveVec.z = 1.0f; }
 	if (GetAsyncKeyState('S')) { _moveVec.z = -1.0f; }
+
+	if (GetAsyncKeyState('1'))
+	{
+		m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("down"),false	);
+		if (m_spAnimator->IsAnimationEnd() == true)
+		{
+			m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("downStand"));
+		}
+	}
+
+	if (GetAsyncKeyState('2')) { m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("downStand")); }
+	if (GetAsyncKeyState('3')) { m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("up")); }
+	if (GetAsyncKeyState('4')) { m_spAnimator->SetAnimation(m_spModel->GetData()->GetAnimation("upStand")); }
 
 	const std::shared_ptr<const CameraBase> _spCamera = m_wpCamera.lock();
 	if (_spCamera)
